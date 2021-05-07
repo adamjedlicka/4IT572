@@ -15,10 +15,11 @@ jobs:
             - .
   deploy:
     docker:
-      - image: tomonorimatsumura/ubuntu18-ansible:stable
+      - image: circleci/python:latest
     steps:
       - checkout
-      - run: AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY AWS_SESSION_TOKEN=$AWS_SESSION_TOKEN ansible-playbook ./.ansible/deploy.yml
+      - run: python -m pip install --user ansible
+      - run: ansible-playbook ./.ansible/deploy.yml
 
 workflows:
   build:
