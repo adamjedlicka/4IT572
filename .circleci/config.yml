@@ -1,12 +1,9 @@
 version: 2.1
 
-vse: &vse
-  docker:
-    - image: circleci/node:8.11.3
-
 jobs:
   build:
-    <<: *vse
+    docker:
+      - image: circleci/node:8.11.3
     steps:
       - checkout
       - run: npm install
@@ -16,8 +13,25 @@ jobs:
           root: .
           paths:
             - .
+  deploy:
+    docker:
+      - image: circleci/python:latest
+    steps:
+      - checkout
+      - run: python -m pip install --user boto ansible
+      - run: echo "$KEY" > ./key.pem
+      - run:
+          environment:
+            ANSIBLE_HOST_KEY_CHECKING: False
+          command: ansible-playbook ./.ansible/deploy.yml --user ubuntu --key-file ./key.pem
 
 workflows:
   build:
     jobs:
       - build
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
