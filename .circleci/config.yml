@@ -18,7 +18,7 @@ jobs:
       - image: circleci/python:latest
     steps:
       - checkout
-      - run: python -m pip install --user ansible
+      - run: python -m pip install --user boto ansible
       - run: ansible-playbook ./.ansible/deploy.yml
 
 workflows:
