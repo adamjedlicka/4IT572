@@ -18,7 +18,7 @@ jobs:
       - image: tomonorimatsumura/ubuntu18-ansible:stable
     steps:
       - checkout
-      - run: ansible-playbook .ansible/deploy.yml
+      - run: AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY AWS_SESSION_TOKEN=$AWS_SESSION_TOKEN ansible-playbook ./.ansible/deploy.yml
 
 workflows:
   build:
