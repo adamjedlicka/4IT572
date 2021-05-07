@@ -18,6 +18,9 @@ jobs:
       - image: circleci/python:latest
     steps:
       - checkout
+      - add_ssh_keys:
+          fingerprints:
+            - "0b:75:89:54:9a:2f:27:74:96:71:3f:bb:ab:67:3e:62"
       - run: python -m pip install --user boto ansible
       - run:
           environment:
